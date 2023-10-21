@@ -11,6 +11,7 @@ import { FileCard } from "./FileCard";
 import { QuizCard } from "./QuizCard";
 import { SummaryCard } from "./SummaryCard"
 import { FlashcardCard } from "./FlashcardCard";
+import { OutlineCard } from "./OutlineCard";
 import 'filepond/dist/filepond.min.css';
 
 
