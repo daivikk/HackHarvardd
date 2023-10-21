@@ -175,7 +175,6 @@ export default function Dashboard() {
     console.log(courses)
 
   return (
-<provider store={store}>
   <div>
     {isLoading ? <LoadingScreen/> : 
   <div className="relative min-h-screen flex">
@@ -281,6 +280,5 @@ export default function Dashboard() {
 
   </div>
 }</div>
-  </provider> 
   )
 }

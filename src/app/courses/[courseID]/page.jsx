@@ -185,7 +185,7 @@ export default function CoursePage({ params }) {
   <div>
   <div className="relative min-h-screen flex">
       <div className="grid grid-cols-1 grid-rows-1 sm:grid-rows-6 sm:grid-cols-7 gap-6 m-6 flex-1">
-        <div className="bg-off-white p-4 sm:col-span-7 rounded-3xl shadow-md row-span-2">
+        <div className="bg-off-white p-4 sm:col-span-7 rounded-3xl shadow-md row-span-1">
         <AddFolderForm course={course}/>
         <div className="courseBtns inline-block flex space-x-2 -mt-12 absolute right-5">
                 <div className="addFilesBtnContainer flex inline-block rounded-3xl flex right-0 z-10">
@@ -281,7 +281,7 @@ export default function CoursePage({ params }) {
 
 
         {/* THE FOLLOWING CODE IS FOR THE GENERATE W AI MODAL */}
-<button className="btn" onClick={()=>document.getElementById('ai_modal').showModal()}></button>
+{/* <button className="btn" onClick={()=>document.getElementById('ai_modal').showModal()}></button>
 <dialog id="ai_modal" className="modal w-2/12 h-10/12 bg-off-white rounded-3xl scale-125">
   <div className="modal-box">
 <div className='flex items-center justify-center items-center font-biscuitReg mt-4'>
@@ -292,7 +292,6 @@ export default function CoursePage({ params }) {
   
     <div className="modal-action">
       <form method="dialog">
-        {/* if there is a button, it will close the modal */}
         <button className="btn btn-sm w-[1.25rem] h-[1.25rem] btn-circle btn-ghost absolute top-3 right-3 bg-pastel-red rounded-full justify-center items-center flex inline-block">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="text-dark-red hover:text-hover-red hover:scale-105 w-[1rem] h-[1rem]">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -301,7 +300,7 @@ export default function CoursePage({ params }) {
       </form>
     </div>
   </div>
-</dialog>
+</dialog> */}
 
     </div>}
       </>

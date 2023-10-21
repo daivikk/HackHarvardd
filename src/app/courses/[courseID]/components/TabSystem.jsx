@@ -252,7 +252,63 @@ export const TabSystem = (props) => {
             </svg>
         </button>
 
-        <div className='ml-2 mr-2 mb-4 -mt-6 flex space-x-4 p-2'>
+        {/* THE FOLLOWING CODE IS FOR THE GENERATE W AI MODAL */}
+<dialog id="ai_modal" className="modal w-2/12 h-10/12 bg-off-white rounded-3xl">
+<div className="modal-box">
+<div className='flex items-center justify-center items-center font-biscuitReg mt-4'>
+<div className="w-10 h-10 sm:w-12 sm:h-12 bg-light-pink rounded-full justify-center items-center flex inline-block">
+<svg xmlns="http://www.w3.org/2000/svg" className="text-dark-pink h-10 w-10" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><path d="M128,200c16,0,42.5-.2,72.9-17.8s40.3-39.5,43.4-50.8a7.9,7.9,0,0,0-5.7-9.8c-7.3-1.9-20.1-3.6-36.5.3" fill="none" stroke="#FFA1DF" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><path d="M53.9,121.8c-16.4-3.8-29.2-2.1-36.5-.2a7.9,7.9,0,0,0-5.7,9.8c3.1,11.3,13,33.3,43.4,50.8S112,200,128,200" fill="none" stroke="#FFA1DF" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><path d="M128,200s40-21.8,40-80c0-45.6-24.6-68.8-35.2-76.8a8.1,8.1,0,0,0-9.6,0C112.6,51.2,88,74.4,88,120,88,178.2,128,200,128,200Z" fill="none" stroke="#FFA1DF" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><path d="M128,200c12-2.6,44.3-20.8,63.7-54.4s14.6-60.3,10.8-72a7.8,7.8,0,0,0-9.2-5.3,77.1,77.1,0,0,0-31.4,15.1" fill="none" stroke="#FFA1DF" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><path d="M94.1,83.4A77.1,77.1,0,0,0,62.7,68.3a7.8,7.8,0,0,0-9.2,5.3c-3.8,11.7-8.6,38.5,10.8,72S116,197.4,128,200" fill="none" stroke="#FFA1DF" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/></svg>
+</div>
+</div>
+<div className='ml-2 mr-2 mb-4 -mt-6 flex space-x-4 p-2'>
+    <button onClick={()=>{handleClick("Summary")}} className='font-biscuitReg h-24 w-24 bg-light-pink p-7 mt-7 rounded-3xl justify-center flex inline-block hover:cursor-pointer hover:scale-105'>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" className="text-dark-pink w-10 h-10 absolute -mt-2 hover:text-hover-pink">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
+        </svg>
+        <p className='text-sm text-dark-pink absolute mt-8 hover:text-hover-pink'>Summary</p>
+    </button>
+    <button onClick={()=>{handleClick("Outline")}} className='font-biscuitReg h-24 w-24 bg-light-pink p-7 mt-7 rounded-3xl justify-center flex inline-block hover:cursor-pointer hover:scale-105'>
+        <svg xmlns="http://www.w3.org/2000/svg" className="text-dark-pink w-10 h-10 absolute -mt-2 hover:text-hover-pink" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 10h16M4 14h16M4 18h16" />
+        </svg>
+        <p className='text-sm text-dark-pink absolute mt-8 hover:text-hover-pink'>Outline</p>
+    </button>
+</div>
+<div className='ml-2 mr-2 mb-4 -mt-12 flex space-x-4 p-2'>
+    <button onClick={()=>{handleClick("Flashcards")}} className='font-biscuitReg h-24 w-24 bg-light-pink p-7 mt-7 rounded-3xl justify-center flex inline-block hover:cursor-pointer hover:scale-105'>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" className="w-10 h-10 -mt-2 absolute text-dark-pink hover:text-hover-pink hover:scale-105">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 8.25V6a2.25 2.25 0 00-2.25-2.25H6A2.25 2.25 0 003.75 6v8.25A2.25 2.25 0 006 16.5h2.25m8.25-8.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-7.5A2.25 2.25 0 018.25 18v-1.5m8.25-8.25h-6a2.25 2.25 0 00-2.25 2.25v6" />
+        </svg>
+    <p className='text-sm text-dark-pink absolute mt-8 hover:text-hover-pink'>Flashcards</p>
+    </button>
+    <button onClick={()=>{handleClick("Quiz")}} className='font-biscuitReg h-24 w-24 bg-light-pink p-7 mt-7 rounded-3xl justify-center flex inline-block hover:cursor-pointer hover:scale-105'>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" className="text-dark-pink w-9 h-9 absolute -mt-2 hover:text-hover-pink">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M10.125 2.25h-4.5c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125v-9M10.125 2.25h.375a9 9 0 019 9v.375M10.125 2.25A3.375 3.375 0 0113.5 5.625v1.5c0 .621.504 1.125 1.125 1.125h1.5a3.375 3.375 0 013.375 3.375M9 15l2.25 2.25L15 12" />
+        </svg>
+    <p className='text-sm text-dark-pink absolute mt-8 hover:text-hover-pink'>Quiz</p>
+    </button>
+</div>
+<div className="modal-action">
+    <form method="dialog">
+        <button className="btn btn-sm w-[1.25rem] h-[1.25rem] btn-circle btn-ghost absolute top-3 right-3 bg-pastel-red rounded-full justify-center items-center flex inline-block">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" className="text-dark-red hover:text-hover-red hover:scale-105 w-[1rem] h-[1rem]">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+        </button>
+    </form>
+</div>
+</div>
+</dialog>
+
+{/*     
+        <button className="btn" onClick={()=>document.getElementById('ai_modal').showModal()}></button>
+            <dialog id="ai_modal" className="modal w-2/12 h-10/12 bg-off-white rounded-3xl scale-125">
+            <div className="modal-box">
+            <div className='flex items-center justify-center items-center font-biscuitReg mt-4'>
+            <div className="w-10 h-10 sm:w-12 sm:h-12 bg-light-pink rounded-full justify-center items-center flex inline-block">
+            <svg xmlns="http://www.w3.org/2000/svg" className="text-dark-pink h-10 w-10 hover:stroke-text-hover-pink" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><path d="M128,200c16,0,42.5-.2,72.9-17.8s40.3-39.5,43.4-50.8a7.9,7.9,0,0,0-5.7-9.8c-7.3-1.9-20.1-3.6-36.5.3" fill="none" stroke="#FFA1DF" strokeLinecap="round" strokeLinejoin="round" strokeWidth="16"/><path d="M53.9,121.8c-16.4-3.8-29.2-2.1-36.5-.2a7.9,7.9,0,0,0-5.7,9.8c3.1,11.3,13,33.3,43.4,50.8S112,200,128,200" fill="none" stroke="#FFA1DF" strokeLinecap="round" strokeLinejoin="round" strokeWidth="16"/><path d="M128,200s40-21.8,40-80c0-45.6-24.6-68.8-35.2-76.8a8.1,8.1,0,0,0-9.6,0C112.6,51.2,88,74.4,88,120,88,178.2,128,200,128,200Z" fill="none" stroke="#FFA1DF" strokeLinecap="round" strokeLinejoin="round" strokeWidth="16"/><path d="M128,200c12-2.6,44.3-20.8,63.7-54.4s14.6-60.3,10.8-72a7.8,7.8,0,0,0-9.2-5.3,77.1,77.1,0,0,0-31.4,15.1" fill="none" stroke="#FFA1DF" strokeLinecap="round" strokeLinejoin="round" strokeWidth="16"/><path d="M94.1,83.4A77.1,77.1,0,0,0,62.7,68.3a7.8,7.8,0,0,0-9.2,5.3c-3.8,11.7-8.6,38.5,10.8,72S116,197.4,128,200" fill="none" stroke="#FFA1DF" strokeLinecap="round" strokeLinejoin="round" strokeWidth="16"/></svg>
+            </div>
+            <div className='ml-2 mr-2 mb-4 flex space-x-4 p-2'>
             <button onClick={()=>{handleClick("Summary")}} className='font-biscuitReg h-24 w-24 bg-purple-md p-7 mt-7 rounded-3xl justify-center flex inline-block hover:cursor-pointer hover:scale-105'>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="text-hover-purple w-10 h-10 absolute -mt-2">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
@@ -278,32 +334,19 @@ export const TabSystem = (props) => {
                 <p className='text-sm text-dark-blue absolute mt-8'>Outline</p>
             </button>
         </div>
-
-        <dialog id="my_modal_4" className="modal w-full h-full bg-off-white rounded-3xl">
-            <div className="modal-box">
-                <div className='flex items-center space-x-5 font-biscuitReg mt-4'>
-                    <h1 className="flex font-semibold text-dark-gray text-3xl ml-6 border-b border-light-gray">{folder.name}</h1>
-                    <div className="bg-blue-md w-fit pl-3 pr-3 h-8 rounded-3xl flex items-center ">
-                        <h1 className="text-md text-dark-blue">{course.name}</h1>
-                    </div> 
-                </div>
-                <div className='ml-4 mr-4 mb-4 -mt-3'>
-                    <div className='font-biscuitReg h-fit w-full bg-storm p-7 mt-7 rounded-3xl'>
-                        <p className='summaryText text-lg text-justify text-dark-gray'>hi</p>
-                    </div>
-                </div>
+            </div>
+            
                 <div className="modal-action">
-                    <form method="dialog">
-                        {/* if there is a button, it will close the modal */}
-                        <button className="btn btn-sm w-[1.7rem] h-[1.7rem] btn-circle btn-ghost absolute top-3 right-3 bg-pastel-red rounded-full justify-center items-center flex inline-block">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="text-dark-red hover:text-hover-red hover:scale-105 w-[1.35rem] h-[1.35rem]">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                            </svg>
-                        </button>
-                    </form>
+                <form method="dialog"> */}
+                    {/* <button className="btn btn-sm w-[1.25rem] h-[1.25rem] btn-circle btn-ghost absolute top-3 right-3 bg-pastel-red rounded-full justify-center items-center flex inline-block">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="text-dark-red hover:text-hover-red hover:scale-105 w-[1rem] h-[1rem]">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </form>
                 </div>
             </div>
-        </dialog>
+            </dialog> */}
        
         <Sublevel type={type} />
         {/* <FilePond server={{process: '/api/input', fetch: null, revert: null}}/> */}
