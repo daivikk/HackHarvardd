@@ -2,7 +2,28 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
+@font-face {
+  font-family: "Biscuit-Med";
+  src: url("fonts/GTWalsheimPro-Medium.ttf");
+}
+
+@font-face{
+  font-family: "Biscuit-Reg";
+  src: url("fonts/GTWalsheimPro-Regular.ttf");
+  
+}
+
+@font-face{
+  font-family: "Biscuit-Thin";
+  src: url("fonts/GTWalsheimPro-Thin.ttf");
+}
+
+@font-face{
+  font-family: "Biscuit-Bold";
+  src: url("fonts/GTWalsheimPro-Bold.ttf");
+}
+
+/* :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
@@ -10,18 +31,14 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+    --blue: 228, 244, 255;
+    --pink: 242, 229, 255;
+    --background-gradient: linear-gradient(180deg, rgba(228, 244, 255), rgba(242, 229, 255));
   }
-}
+} */
 
-body {
+html, body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  background: linear-gradient(180deg, rgba(228, 244, 255), rgba(242, 229, 255));
+  background-attachment: fixed;
 }
