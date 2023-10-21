@@ -79,6 +79,7 @@ export default function Login() {
   };
 
     return (
+        <div className="mt-20">
         <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 items-center">
         <div className="w-10/12 bg-white shadow-lg border border-transparent rounded-3xl max-w-sm p-10 sm:p-10 lg:p-12 dark:bg-white dark:border-transparent">
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -145,13 +146,14 @@ export default function Login() {
             </form>
   
             <p className="mt-10 text-center text-sm text-dark-gray font-biscuitReg">
-              Don&apos;t have an account?{' '}
+              Don't have an account?{' '}
               <a href="/signup" className="font-biscuitMed leading-6 text-dark-gray hover:text-black">
                 Sign up
               </a>
             </p>
           </div>
           </div>
+        </div>
         </div>
     )
   }

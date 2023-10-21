@@ -41,10 +41,11 @@ export default function SignUp() {
 
   return (
     <>
+    <div className="mt-6">
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 items-center">
       <div className="w-10/12 bg-white shadow-lg border border-transparent rounded-3xl max-w-sm p-10 sm:p-10 lg:p-12 dark:bg-white dark:border-transparent">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-          <h1 className="text-xl text-center font-biscuitThin">studyAI</h1>
+          <h1 className="text-xl text-center font-biscuitThin">lotus</h1>
           <h2 className="mt-5 text-center text-2xl font-biscuitMed leading-9 text-black">
             Create your account
           </h2>
@@ -130,6 +131,7 @@ export default function SignUp() {
           </p>
         </div>
         </div>
+      </div>
       </div>
     </>
   )
