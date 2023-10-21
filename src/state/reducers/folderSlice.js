@@ -31,6 +31,14 @@ export const folderSlice = createSlice({
       const index = state.folders.findIndex((folder) => folder.folderID == action.payload.folderID);
       state.folders[index].quizzes.push(action.payload.quizObject);
     },
+    newFlashcard: (state, action) => {
+      const index = state.folders.findIndex((folder) => folder.folderID == action.payload.folderID);
+      state.folders[index].flashcards.push(action.payload.flashcardObject);
+    },
+    newOutline: (state, action) => {
+      const index = state.folders.findIndex((folder) => folder.folderID == action.payload.folderID);
+      state.folders[index].outlines.push(action.payload.outlineObject);
+    },
     deleteFiles: (state, action) => {
       let removeFiles = action.payload.files;
       const index = state.folders.findIndex((folder) => folder.folderID == action.payload.folderID);

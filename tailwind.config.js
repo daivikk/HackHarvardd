@@ -40,10 +40,11 @@ const config = {
       'hover-purple' : "#9287D9",
       'hover-blue' : "#558DD3",
       'hover-green' : "#40A66F",
-      'hover-pink' : "#FF68CB",
+      'hover-pink' : "#FF85D5",
       'folder-blue' : "#DFE6FF",
+      'darker-gray' : "#808080"
     },
   },
   plugins: [require("@tailwindcss/forms")],
 };
-export default config; 
+export default config;

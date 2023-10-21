@@ -6,7 +6,7 @@ import { courseActions } from '@/state/reducers/courseSlice';
 import { useRouter } from "next/navigation";
 import { useEffect } from 'react';
 
-export function Flashcard(props) {
+export const Flashcard = (props) => {
     // const user = useSelector((state) => state.auth.user)
     // const courses = useSelector((state) => state.course.courses)
     // const token = useSelector((state) => state.auth.token)

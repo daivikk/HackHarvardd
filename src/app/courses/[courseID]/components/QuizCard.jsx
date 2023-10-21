@@ -14,7 +14,7 @@ export function QuizCard(quiz) {
   return (
     <>
 {/* <button className="btn" onClick={()=>document.getElementById('my_modal_4').showModal()}>open modal</button> */}
-<div onClick={()=>document.getElementById(`quizModal${quiz.quizID}`).showModal()} className="bg-storm rounded-3xl items-center font-biscuitReg relative mb-2 mt-2 p-2">
+<div onClick={()=>document.getElementById(`quizModal${quiz.quizID}`).showModal()} className="hover:cursor-pointer bg-storm rounded-3xl items-center font-biscuitReg relative mb-2 mt-2 p-2">
     <h1 className="flex text-xl text-dark-gray font-biscuitReg ml-4">{quiz.name}</h1>
   </div>
 <dialog id={`quizModal${quiz.quizID}`} className="modal w-full h-full bg-off-white rounded-3xl">
@@ -24,7 +24,7 @@ export function QuizCard(quiz) {
     <div className="bg-blue-md w-fit pl-3 pr-3 h-8 rounded-3xl flex items-center ">
     {quiz.filesUsed.map((file, index) => {
       return(
-        <div className="bg-blue-md w-fit pl-3 pr-3 h-8 rounded-3xl flex items-center ">
+        <div className="bg-blue-md w-fit pl-3 pr-3 h-8 rounded-3xl flex items-center">
           <h1 className="text-md text-dark-blue">{file.name}</h1>
         </div> 
       )})}

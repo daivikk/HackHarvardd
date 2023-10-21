@@ -5,6 +5,7 @@ import courseReducer from "./reducers/courseSlice";
 import folderReducer from "./reducers/folderSlice";
 import homeReducer from "./reducers/homeSlice";
 import tabReducer from "./reducers/tabSlice";
+import flashcardReducer from "./reducers/flashcardSlice";
 // import roadmapReducer from "./reducers/roadmapSlice"
 
 import { configureStore } from "@reduxjs/toolkit";
@@ -47,6 +48,7 @@ const rootReducer = combineReducers({
   folder: folderReducer,
   home: homeReducer,
   tab: tabReducer,
+  flashcard: flashcardReducer, 
   //   roadmap: roadmapReducer
 });
 const persistedReducer = persistReducer(persistConfig, rootReducer);

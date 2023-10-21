@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import { FileCard } from "./FileCard";
 import { QuizCard } from "./QuizCard";
 import { SummaryCard } from "./SummaryCard"
+import { FlashcardCard } from "./FlashcardCard";
 import 'filepond/dist/filepond.min.css';
 
 
@@ -110,7 +111,7 @@ export const TabSystem = (props) => {
                 <>
                 {folders[folderIndex].files.map((file, index) => {
                     return(
-                        <div key={index} onClick={() => {selected(file, index)}} className="file bg-storm rounded-3xl items-center font-biscuitReg relative mb-2 mt-2 p-2">
+                        <div key={index} onClick={() => {selected(file, index)}} className="file hover:cursor-pointer bg-storm rounded-3xl items-center font-biscuitReg relative mb-2 mt-2 p-2">
                             <h1 className="flex text-xl text-dark-gray font-biscuitReg ml-4">{file.name}</h1>
                         </div>
                     )
@@ -152,7 +153,7 @@ export const TabSystem = (props) => {
             return (
                 folders[folderIndex].outlines.map((outline, index) => {
                     return(
-                        <QuizCard key={index} {...outline} />
+                        <OutlineCard key={index} {...outline} />
                     )
                     })
             )
@@ -162,7 +163,7 @@ export const TabSystem = (props) => {
             return (
                 folders[folderIndex].flashcards.map((flashcard, index) => {
                     return(
-                        <QuizCard key={index} {...flashcard} />
+                        <FlashcardCard key={index} {...flashcard} />
                     )
                     })
             )
@@ -196,7 +197,33 @@ export const TabSystem = (props) => {
             dispatch(folderActions.newQuiz({folderID:newQuiz.data.folderAffiliation, quizObject:{name: newQuiz.data.name, quizID: newQuiz.data._id, questions: newQuiz.data.questions, filesUsed: newQuiz.data.filesUsed}}))
             dispatch(homeActions.setLoading(false))
         }
-        
+        else if(btn == "Flashcards"){
+            dispatch(homeActions.setLoading(true))
+
+            const res = await fetch('/api/output', {
+                method: 'POST',
+                body: JSON.stringify({folderID: folder.folderID, files: activeFiles, type: "Flashcard", subject: course.type}),
+                headers: {'Content-Type': "application/json"}
+            })
+            const newFlashcard = await res.json();
+
+            dispatch(folderActions.newFlashcard({folderID:newFlashcard.data.folderAffiliation, flashcardObject:{title: newFlashcard.data.title, flashcardID: newFlashcard.data._id, flashcards: newFlashcard.data.flashcards, filesUsed: newFlashcard.data.filesUsed}}))
+            dispatch(homeActions.setLoading(false))
+        }
+        else if(btn == "Outline"){
+            dispatch(homeActions.setLoading(true))
+
+            const res = await fetch('/api/output', {
+                method: 'POST',
+                body: JSON.stringify({folderID: folder.folderID, files: activeFiles, type: "Outline", subject: course.type}),
+                headers: {'Content-Type': "application/json"}
+            })
+            const newOutline = await res.json();
+
+            dispatch(folderActions.newOutline({folderID:newOutline.data.folderAffiliation, outlineObject:{title: newOutline.data.title, outlineID: newOutline.data._id, content: newOutline.data.content, filesUsed: newOutline.data.filesUsed}}))
+            dispatch(homeActions.setLoading(false))
+        }
+
     }
 
     const handleFileDelete = async (e) => {
@@ -237,9 +264,18 @@ export const TabSystem = (props) => {
                 </svg>
                 <p className='text-sm text-dark-blue absolute mt-8'>Quiz</p>
             </button>
-
-            <h1>{folder.name}</h1>
-            <h1>{type}</h1>
+            <button onClick={()=>{handleClick("Flashcards")}} className='font-biscuitReg h-24 w-24 bg-purple-md p-7 mt-7 rounded-3xl justify-center flex inline-block hover:cursor-pointer hover:scale-105'>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="text-hover-purple w-10 h-10 absolute -mt-2">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
+                </svg>
+                <p className='text-sm text-hover-purple absolute mt-8'>Flashcards</p>
+            </button>
+            <button onClick={()=>{handleClick("Outline")}} className='font-biscuitReg h-24 w-24 bg-blue-md p-7 mt-7 rounded-3xl justify-center flex inline-block hover:cursor-pointer hover:scale-105'>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="text-dark-blue w-9 h-9 absolute -mt-2">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M10.125 2.25h-4.5c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125v-9M10.125 2.25h.375a9 9 0 019 9v.375M10.125 2.25A3.375 3.375 0 0113.5 5.625v1.5c0 .621.504 1.125 1.125 1.125h1.5a3.375 3.375 0 013.375 3.375M9 15l2.25 2.25L15 12" />
+                </svg>
+                <p className='text-sm text-dark-blue absolute mt-8'>Outline</p>
+            </button>
         </div>
 
         <dialog id="my_modal_4" className="modal w-full h-full bg-off-white rounded-3xl">
