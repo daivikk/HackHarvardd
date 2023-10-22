@@ -63,8 +63,7 @@ export async function POST(req) {
 
     // Check if uploadedFile is of type File
     if(uploadedFile.type == 'image/jpeg' || uploadedFile.type == 'image/png'){
-        computerVision(uploadedFile, folderID, fileName, ogfilename, userAffiliation, parsedText)
-        
+        globalNewFile = await computerVision(uploadedFile, folderID, fileName, ogfilename, userAffiliation, parsedText)
     }
     else if(uploadedFile.type == 'audio/mpeg'){
         globalNewFile = await parseAudio(uploadedFile, folderID, fileName, ogfilename, userAffiliation, parsedText)
@@ -115,7 +114,7 @@ const computerVisionClient = new ComputerVisionClient(
  * END - Authenticate
  */
 
-function computerVision(uploadedFile, folderID, fileName, ogfilename, userAffiliation, parsedText) {
+const computerVision = (uploadedFile, folderID, fileName, ogfilename, userAffiliation, parsedText) => {
 
     return new Promise(async (resolve, reject) => {
 
@@ -240,7 +239,7 @@ function computerVision(uploadedFile, folderID, fileName, ogfilename, userAffili
       //   });
       // }
 
-    }
+  });
 }
 
 const parseAudio = (uploadedFile, folderID, fileName, ogfilename, userAffiliation, parsedText) => {
