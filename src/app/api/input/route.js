@@ -127,10 +127,10 @@ const computerVision = (uploadedFile, folderID, fileName, ogfilename, userAffili
       // The URL can point to image files (.jpg/.png/.bmp) or multi-page files (.pdf, .tiff).
 
       // Generate a unique filename
-      fileName = uuidv4();
+      // fileName = uuidv4();
 
       // Convert the uploaded file into a temporary file
-      const tempFilePath = `public/${fileName}.png`;
+      // const tempFilePath = `public/${fileName}.png`;
 
       // Convert ArrayBuffer to Buffer
       const fileBuffer = Buffer.from(await uploadedFile.arrayBuffer());
