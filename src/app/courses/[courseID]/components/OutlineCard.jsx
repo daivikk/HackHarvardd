@@ -15,7 +15,14 @@ export function OutlineCard(outline) {
   return (
     <>
  <div onClick={()=>document.getElementById(`outlineModal${outline.outlineID}`).showModal()} className="hover:cursor-pointer bg-storm rounded-3xl items-center font-biscuitReg relative mb-2 mt-2 p-2">
-    <h1 className="flex text-xl text-dark-gray font-biscuitReg ml-4">{outline.title}</h1>
+ <div className="inline-block flex">
+    <div className="colorCircle ml-2 w-8 h-8 sm:w-8 sm:h-8 bg-light-pink rounded-full flex justify-center items-center ml-2">
+        <svg xmlns="http://www.w3.org/2000/svg" className="text-dark-pink w-[1.25rem] h-[1.25rem]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 10h16M4 14h16M4 18h16" />
+        </svg>
+    </div>
+    <h1 className="flex items-center text-md text-dark-gray font-biscuitReg ml-4">{outline.title}</h1>                    
+    </div>
   </div>
 
 <dialog id={`outlineModal${outline.outlineID}`} className="modal w-full h-full bg-off-white rounded-3xl">

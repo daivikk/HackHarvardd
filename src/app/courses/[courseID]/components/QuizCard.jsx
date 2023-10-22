@@ -15,7 +15,14 @@ export function QuizCard(quiz) {
     <>
 {/* <button className="btn" onClick={()=>document.getElementById('my_modal_4').showModal()}>open modal</button> */}
 <div onClick={()=>document.getElementById(`quizModal${quiz.quizID}`).showModal()} className="hover:cursor-pointer bg-storm rounded-3xl items-center font-biscuitReg relative mb-2 mt-2 p-2">
-    <h1 className="flex text-xl text-dark-gray font-biscuitReg ml-4">{quiz.name}</h1>
+<div className="inline-block flex">
+  <div className="colorCircle ml-2 w-8 h-8 sm:w-8 sm:h-8 bg-light-pink rounded-full flex justify-center items-center ml-2">
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" className="text-dark-pink w-[1.25rem] h-[1.25rem]">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M10.125 2.25h-4.5c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125v-9M10.125 2.25h.375a9 9 0 019 9v.375M10.125 2.25A3.375 3.375 0 0113.5 5.625v1.5c0 .621.504 1.125 1.125 1.125h1.5a3.375 3.375 0 013.375 3.375M9 15l2.25 2.25L15 12" />
+        </svg>
+  </div>
+  <h1 className="flex items-center text-md text-dark-gray font-biscuitReg ml-4">{quiz.name}</h1>                    
+  </div>
   </div>
 <dialog id={`quizModal${quiz.quizID}`} className="modal w-full h-full bg-off-white rounded-3xl">
   <div className="modal-box">

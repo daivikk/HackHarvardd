@@ -112,9 +112,16 @@ export const TabSystem = (props) => {
                 <>
                 {folders[folderIndex].files.map((file, index) => {
                     return(
-                        <div key={index} onClick={() => {selected(file, index)}} className="file hover:cursor-pointer bg-storm rounded-3xl items-center font-biscuitReg relative mb-2 mt-2 p-2">
-                            <h1 className="flex text-xl text-dark-gray font-biscuitReg ml-4">{file.name}</h1>
-                        </div>
+                    <div key={index} onClick={() => {selected(file, index)}} className="file hover:cursor-pointer bg-storm rounded-3xl items-center font-biscuitReg relative mb-2 mt-2 p-2">
+                    <div className="inline-block flex">
+                    <div className="colorCircle ml-2 w-8 h-8 sm:w-8 sm:h-8 bg-blue-md rounded-full flex justify-center items-center ml-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="text-dark-blue w-[1.25rem] h-[1.25rem]">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12.75V12A2.25 2.25 0 014.5 9.75h15A2.25 2.25 0 0121.75 12v.75m-8.69-6.44l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z" />
+                        </svg>
+                    </div>
+                            <h1 className="flex items-center text-md text-dark-gray font-biscuitReg ml-4">{file.name}</h1>
+                    </div>
+                    </div>
                     )
                     })}
                     <form onSubmit={handleSubmit}>
@@ -247,15 +254,13 @@ export const TabSystem = (props) => {
     return (
         <>
         {/*HANDLE FILE DELETE*/}
-        <div className="justify-end">
-            <button onClick={handleFileDelete} className="btn btn-sm w-[1.75rem] h-[1.75rem] rounded-3xl btn-circle btn-ghost bg-pastel-red rounded-full flex items-center justify-center">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="w-5 h-5 text-dark-red hover:cursor-pointer hover:text-hover-red hover:scale-105">
+        <div className="float-right -mt-20">
+            <button onClick={handleFileDelete} className="btn btn-sm w-[2.25rem] h-[2.25rem] rounded-3xl btn-circle btn-ghost bg-pastel-red rounded-full flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="w-[1.5rem] h-[1.5rem] text-dark-red hover:cursor-pointer hover:text-hover-red hover:scale-105">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
                 </svg>
             </button>
         </div>
-
-        {/* THE FOLLOWING CODE IS FOR THE GENERATE W AI MODAL */}
 <dialog id="ai_modal" className="modal w-2/12 h-10/12 bg-off-white rounded-3xl">
 <div className="modal-box">
 <div className='flex items-center justify-center items-center font-biscuitReg mt-4'>

@@ -55,8 +55,15 @@ export function FlashcardCard(flashcard) {
       return (
 <>
 <div onClick={()=>document.getElementById(`flashcardModal${flashcard.flashcardID}`).showModal()} className="hover:cursor-pointer bg-storm rounded-3xl items-center font-biscuitReg relative mb-2 mt-2 p-2">
-    <h1 className="flex text-xl text-dark-gray font-biscuitReg ml-4">{flashcard.title}</h1>
-  </div>
+<div className="inline-block flex">
+    <div className="colorCircle ml-2 w-8 h-8 sm:w-8 sm:h-8 bg-light-pink rounded-full flex justify-center items-center ml-2">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" className="text-dark-pink w-[1.25rem] h-[1.25rem]">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 8.25V6a2.25 2.25 0 00-2.25-2.25H6A2.25 2.25 0 003.75 6v8.25A2.25 2.25 0 006 16.5h2.25m8.25-8.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-7.5A2.25 2.25 0 018.25 18v-1.5m8.25-8.25h-6a2.25 2.25 0 00-2.25 2.25v6" />
+        </svg>
+    </div>
+    <h1 className="flex items-center text-md text-dark-gray font-biscuitReg ml-4">{flashcard.title}</h1>                    
+    </div>  
+</div>
     <dialog id={`flashcardModal${flashcard.flashcardID}`} className="modal w-10/12 h-full bg-off-white rounded-3xl">
     <div className="modal-box ">
     <div className='flex items-center space-x-5 font-biscuitReg mt-4'>
