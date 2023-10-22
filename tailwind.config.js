@@ -42,7 +42,9 @@ const config = {
       'hover-green' : "#40A66F",
       'hover-pink' : "#FF85D5",
       'folder-blue' : "#DFE6FF",
-      'darker-gray' : "#808080"
+      'darker-gray' : "#808080",
+      'green': "#09af98",
+      'purple': "#f2e5ff"
     },
   },
   plugins: [require("@tailwindcss/forms")],

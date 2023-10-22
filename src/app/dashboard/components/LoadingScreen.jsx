@@ -1,29 +1,35 @@
 import React from 'react'
 import "./css/LoadingScreen.css"
 
-const LoadingScreen = () => {
+export const LoadingScreen = () => {
   return (
-    <>
-    <div className='overlay absolute top-0 left-0 h-full w-full'></div>
-    <div aria-label="Orange and tan hamster running in a metal wheel" role="img" className="wheel-and-hamster">
-	    <div className="wheel"></div>
-	    <div className="hamster">
-		    <div className="hamster__body">
-			    <div className="hamster__head">
-                    <div className="hamster__ear"></div>
-                    <div className="hamster__eye"></div>
-                    <div className="hamster__nose"></div>
-			    </div>
-                <div className="hamster__limb hamster__limb--fr"></div>
-                <div className="hamster__limb hamster__limb--fl"></div>
-                <div className="hamster__limb hamster__limb--br"></div>
-                <div className="hamster__limb hamster__limb--bl"></div>
-                <div className="hamster__tail"></div>
-		    </div>
-	    </div>
-	    <div className="spoke"></div>
+    <div className='loaderContainer'>
+    <div class="ripple r1"></div>
+    <div class="ripple r2"></div>
+
+    <div class="lotus">
+      <div class="leaf l1"></div>
+      <div class="leaf l2"></div>
+      <div class="center"></div>
+
+      <div class="petal p1"></div>
+      <div class="petal p2"></div>
+      <div class="petal p3"></div>
+      <div class="petal p4"></div>
+      <div class="petal p5"></div>
+      <div class="petal p6"></div>
+      <div class="petal p7"></div>
+
+      <div class="magic m1"></div>
+      <div class="magic m2"></div>
+      <div class="magic m3"></div>
+      <div class="magic m4"></div>
+      <div class="magic m5"></div>
+      <div class="magic m6"></div>
+      <div class="magic m7"></div>
+
     </div>
-    </>
+    </div>
   )
 }
 
