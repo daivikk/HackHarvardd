@@ -63,7 +63,8 @@ export async function POST(req) {
 
     // Check if uploadedFile is of type File
     if(uploadedFile.type == 'image/jpeg' || uploadedFile.type == 'image/png'){
-        globalNewFile = computerVision(uploadedFile, folderID, fileName, ogfilename, userAffiliation, parsedText)
+        computerVision(uploadedFile, folderID, fileName, ogfilename, userAffiliation, parsedText)
+        
     }
     else if(uploadedFile.type == 'audio/mpeg'){
         globalNewFile = await parseAudio(uploadedFile, folderID, fileName, ogfilename, userAffiliation, parsedText)
@@ -116,9 +117,7 @@ const computerVisionClient = new ComputerVisionClient(
 
 function computerVision(uploadedFile, folderID, fileName, ogfilename, userAffiliation, parsedText) {
 
-  
-  async.series([
-    async function () {
+    return new Promise(async (resolve, reject) => {
 
       /**
        * OCR: READ PRINTED & HANDWRITTEN TEXT WITH THE READ API
@@ -142,12 +141,42 @@ function computerVision(uploadedFile, folderID, fileName, ogfilename, userAffili
 
 
       //'https://raw.githubusercontent.com/Azure-Samples/cognitive-services-sample-data-files/master/ComputerVision/Images/printed_text.jpg'
-      const printedTextSampleURL = `https://metalbyexample.com/wp-content/uploads/figure-65.png`
+      const printedTextSampleURL = `https://hack-harvardd-5z101oyox-daivikks-projects.vercel.app/api/input/tmp/${fileName}.png`
 
       // Recognize text in printed image from a URL
       console.log('Read printed text from URL...', printedTextSampleURL.split('/').pop());
       const printedResult = await readTextFromURL(computerVisionClient, printedTextSampleURL);
       printRecText(printedResult);
+
+      try{
+        const newFile = await File.create({
+          title: ogfilename,
+          userAffiliation: userAffiliation,
+          folderAffiliation: folderID,
+          content: parsedText,
+        });
+  
+  
+        await Folder.findByIdAndUpdate(folderID, {
+          $push: {
+            files:
+              newFile._id
+          },
+        });
+  
+        resolve(newFile)
+  
+        return NextResponse.json(
+          { data: newFile },
+          { status: 201 }
+        );
+      }
+      catch (err) {
+        console.log(err);
+        reject(err);
+      }
+
+      
 
       // Perform read and await the result from URL
       async function readTextFromURL(client, url) {
@@ -173,6 +202,7 @@ function computerVision(uploadedFile, folderID, fileName, ogfilename, userAffili
           if (result.lines.length) {
             for (const line of result.lines) {
               console.log(line.words.map(w => w.text).join(' '));
+              parsedText += line.words.map(w => w.text).join(' ');
             }
           }
           else { console.log('No recognized text.'); }
@@ -184,48 +214,33 @@ function computerVision(uploadedFile, folderID, fileName, ogfilename, userAffili
        * Download the specified file in the URL to the current local folder
        * 
        */
-      function downloadFilesToLocal(url, localFileName) {
-        return new Promise((resolve, reject) => {
-          console.log('--- Downloading file to local directory from: ' + url);
-          const request = https.request(url, (res) => {
-            if (res.statusCode !== 200) {
-              console.log(`Download sample file failed. Status code: ${res.statusCode}, Message: ${res.statusMessage}`);
-              reject();
-            }
-            var data = [];
-            res.on('data', (chunk) => {
-              data.push(chunk);
-            });
-            res.on('end', () => {
-              console.log('   ... Downloaded successfully');
-              fs.writeFileSync(localFileName, Buffer.concat(data));
-              resolve();
-            });
-          });
-          request.on('error', function (e) {
-            console.log(e.message);
-            reject();
-          });
-          request.end();
-        });
-      }
+      // function downloadFilesToLocal(url, localFileName) {
+      //   return new Promise((resolve, reject) => {
+      //     console.log('--- Downloading file to local directory from: ' + url);
+      //     const request = https.request(url, (res) => {
+      //       if (res.statusCode !== 200) {
+      //         console.log(`Download sample file failed. Status code: ${res.statusCode}, Message: ${res.statusMessage}`);
+      //         reject();
+      //       }
+      //       var data = [];
+      //       res.on('data', (chunk) => {
+      //         data.push(chunk);
+      //       });
+      //       res.on('end', () => {
+      //         console.log('   ... Downloaded successfully');
+      //         fs.writeFileSync(localFileName, Buffer.concat(data));
+      //         resolve();
+      //       });
+      //     });
+      //     request.on('error', function (e) {
+      //       console.log(e.message);
+      //       reject();
+      //     });
+      //     request.end();
+      //   });
+      // }
 
-      /**
-       * END - Recognize Printed & Handwritten Text
-       */
-      console.log();
-      console.log('-------------------------------------------------');
-      console.log('End of quickstart.');
-
-    },
-    function () {
-      return new Promise((resolve) => {
-        resolve();
-      })
     }
-  ], (err) => {
-    throw (err);
-  });
 }
 
 const parseAudio = (uploadedFile, folderID, fileName, ogfilename, userAffiliation, parsedText) => {
