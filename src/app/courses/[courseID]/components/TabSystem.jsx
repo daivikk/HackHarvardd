@@ -58,9 +58,6 @@ export const TabSystem = (props) => {
     
           const res = await fetch('/api/input', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            },
             body: data,
           })
           // handle the error

@@ -137,17 +137,16 @@ const computerVision = (uploadedFile, folderID, fileName, ogfilename, userAffili
 
       // Save the buffer as a file
       // await fis.writeFile(tempFilePath, fileBuffer);
-      await fis.writeFile(`public/upload/${fileName}.png`, fileBuffer );
+      await fis.writeFile(`public/upload/fileName.png`, fileBuffer );
 
 
       //'https://raw.githubusercontent.com/Azure-Samples/cognitive-services-sample-data-files/master/ComputerVision/Images/printed_text.jpg'
-      const printedTextSampleURL = `https://hack-harvardd-5z101oyox-daivikks-projects.vercel.app/upload/${fileName}.png`
+      const printedTextSampleURL = `https://hack-harvardd-5z101oyox-daivikks-projects.vercel.app/upload/fileName.png`
 
       // Recognize text in printed image from a URL
       console.log('Read printed text from URL...', printedTextSampleURL.split('/').pop());
       const printedResult = await readTextFromURL(computerVisionClient, printedTextSampleURL);
       printRecText(printedResult);
-
       try{
         const newFile = await File.create({
           title: ogfilename,
