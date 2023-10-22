@@ -39,7 +39,7 @@ const ComputerVisionClient = require('@azure/cognitiveservices-computervision').
 const ApiKeyCredentials = require('@azure/ms-rest-js').ApiKeyCredentials;
 
 
-const endpoint = "https://lotusocr.cognitiveservices.azure.com/"
+const endpoint = "https://lotusocr.cognitiveservices.azure.com/vision/v3.0/ocr"
 
 const key = "f82c7d146b9b441a94949b1044d84b85"
 
@@ -109,7 +109,7 @@ try{
 
 
 const computerVisionClient = new ComputerVisionClient(
-  new ApiKeyCredentials({ inHeader: { 'Ocp-Apim-Subscription-Key': key } }), endpoint);
+  new ApiKeyCredentials({ inHeader: { 'Ocp-Apim-Subscription-Key': key, 'Content-Type': 'application/octet-stream' } }), endpoint);
 /**
  * END - Authenticate
  */
@@ -127,26 +127,63 @@ const computerVision = (uploadedFile, folderID, fileName, ogfilename, userAffili
       // The URL can point to image files (.jpg/.png/.bmp) or multi-page files (.pdf, .tiff).
 
       // Generate a unique filename
-      // fileName = uuidv4();
+      fileName = uuidv4();
 
       // Convert the uploaded file into a temporary file
-      // const tempFilePath = `public/${fileName}.png`;
+      const tempFilePath = `/tmp/${fileName}.png`;
 
       // Convert ArrayBuffer to Buffer
       const fileBuffer = Buffer.from(await uploadedFile.arrayBuffer());
 
-      // Save the buffer as a file
-      // await fis.writeFile(tempFilePath, fileBuffer);
-      await fis.writeFile(`public/upload/fileName.png`, fileBuffer );
+      await fis.writeFile(tempFilePath, fileBuffer);
 
+      // var options = {
+      //   url: endpoint,
+      //   qs: {
+      //   visualFeatures: 'Categories', 
+      //   details: '', 
+      //   language: 'en'
+      // },
+      // headers: {
+      //   'Content-Type': 'application/octet-stream',
+      //   'Ocp-Apim-Subscription-Key': key
+      //   },
+      //   body: fs.readFileSync(tempFilePath)
+      // };
 
-      //'https://raw.githubusercontent.com/Azure-Samples/cognitive-services-sample-data-files/master/ComputerVision/Images/printed_text.jpg'
-      const printedTextSampleURL = `https://hack-harvardd-5z101oyox-daivikks-projects.vercel.app/upload/fileName.png`
+      const res = await fetch(endpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/octet-stream',
+          'Ocp-Apim-Subscription-Key': key
+          },
+          qs: {
+              visualFeatures: 'Categories', 
+              details: '', 
+              language: 'en'
+            },
+        body: fs.readFileSync(tempFilePath)
+      });
 
-      // Recognize text in printed image from a URL
-      console.log('Read printed text from URL...', printedTextSampleURL.split('/').pop());
-      const printedResult = await readTextFromURL(computerVisionClient, printedTextSampleURL);
-      printRecText(printedResult);
+      const resp = await res.json();
+
+      console.log(resp)
+
+      for(let i = 0; i < resp.regions.length; i++){
+        let region = resp.regions[i]
+        for(let j = 0; j < region.lines.length; j++){
+          let line = region.lines[j]
+          for(let k = 0; k < line.words.length; k++){
+            parsedText += line.words[k].text + " "
+          }
+        }
+      }
+
+      console.log(parsedText)
+      // request.post(options, function (error, response, body) {
+      //   // console.log(body);
+      //   res = body;
+      // })
       try{
         const newFile = await File.create({
           title: ogfilename,
@@ -174,71 +211,6 @@ const computerVision = (uploadedFile, folderID, fileName, ogfilename, userAffili
         console.log(err);
         reject(err);
       }
-
-      
-
-      // Perform read and await the result from URL
-      async function readTextFromURL(client, url) {
-        // To recognize text in a local image, replace client.read() with readTextInStream() as shown:
-        let result = await client.read(url);
-        // Operation ID is last path segment of operationLocation (a URL)
-        let operation = result.operationLocation.split('/').slice(-1)[0];
-
-        // Wait for read recognition to complete
-        // result.status is initially undefined, since it's the result of read
-        while (result.status !== "succeeded") { await sleep(1000); result = await client.getReadResult(operation); }
-        return result.analyzeResult.readResults; // Return the first page of result. Replace [0] with the desired page if this is a multi-page file such as .pdf or .tiff.
-      }
-
-      // Prints all text from Read result
-      function printRecText(readResults) {
-        console.log('Recognized text:');
-        for (const page in readResults) {
-          if (readResults.length > 1) {
-            console.log(`==== Page: ${page}`);
-          }
-          const result = readResults[page];
-          if (result.lines.length) {
-            for (const line of result.lines) {
-              console.log(line.words.map(w => w.text).join(' '));
-              parsedText += line.words.map(w => w.text).join(' ');
-            }
-          }
-          else { console.log('No recognized text.'); }
-        }
-      }
-
-      /**
-       * 
-       * Download the specified file in the URL to the current local folder
-       * 
-       */
-      // function downloadFilesToLocal(url, localFileName) {
-      //   return new Promise((resolve, reject) => {
-      //     console.log('--- Downloading file to local directory from: ' + url);
-      //     const request = https.request(url, (res) => {
-      //       if (res.statusCode !== 200) {
-      //         console.log(`Download sample file failed. Status code: ${res.statusCode}, Message: ${res.statusMessage}`);
-      //         reject();
-      //       }
-      //       var data = [];
-      //       res.on('data', (chunk) => {
-      //         data.push(chunk);
-      //       });
-      //       res.on('end', () => {
-      //         console.log('   ... Downloaded successfully');
-      //         fs.writeFileSync(localFileName, Buffer.concat(data));
-      //         resolve();
-      //       });
-      //     });
-      //     request.on('error', function (e) {
-      //       console.log(e.message);
-      //       reject();
-      //     });
-      //     request.end();
-      //   });
-      // }
-
   });
 }
 
