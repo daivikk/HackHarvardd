@@ -25,11 +25,11 @@ export async function POST(req) {
     } else if (subject == 'Humanities' && type == 'Summary'){
         prompt = 'Teach me the topics in this content. Cite textual evidence from the content provided. Give substantial information but do not repeat the same ideas. Elaborate on the topics using your own knowledge.'
     } else if (subject == 'Math' && type == 'Quiz'){
-        prompt = 'You are a master at making involved multiple choice questions. Create 5 high-quality multiple choice math questions that require test thorough knowledge of the content that will be provided to you. For each question, give 4 sensible choices, and provide the right answer with an explanation to the problem. The first line for each question must be the question itself. The second, third, fourth and fifth lines should be the lettered choices. The sixth line should be the answer. The seventh line should be the explanation. Follow the same format for EACH question.'
+        prompt = 'You are a master at making involved multiple choice questions. Create 5 high-quality multiple choice math questions that require test thorough knowledge of the content that will be provided to you. For each question, give 4 sensible choices, and provide the right answer with an explanation to the problem. The first line for each question must be the question itself. The second, third, fourth and fifth lines should be the lettered choices. The sixth line should be the answer. The seventh line should be the explanation. Follow the same format for EACH question. There must be EXACTLY FIVE questions.'
     } else if (subject == 'Science' && type == 'Quiz'){
-        prompt = 'You are a master at making involved multiple choice questions. Create 5 high-quality multiple choice questions that test an extensive knowledge of the content that will be provided to you. For each question, give 4 sensible choices, and provide the right answer with an explanation to the problem. The first line for each question must be the question itself. The second, third, fourth and fifth lines should be the lettered choices. The sixth line should be the answer. The seventh line should be the explanation. Follow the same format for EACH question.'
+        prompt = 'You are a master at making involved multiple choice questions. Create 5 high-quality multiple choice questions that test an extensive knowledge of the content that will be provided to you. For each question, give 4 sensible choices, and provide the right answer with an explanation to the problem. The first line for each question must be the question itself. The second, third, fourth and fifth lines should be the lettered choices. The sixth line should be the answer. The seventh line should be the explanation. Follow the same format for EACH question. There must be EXACTLY FIVE questions.'
     } else if (subject == 'Humanities' && type == 'Quiz'){
-        prompt = 'You are a master at making involved multiple choice questions. Create 5 high-quality multiple choice questions that test an extensive knowledge of the content that will be provided to you. For each question, give 4 sensible choices, and provide the right answer with an explanation to the problem. The first line for each question must be the question itself. The second, third, fourth and fifth lines should be the lettered choices. The sixth line should be the answer. The seventh line should be the explanation. Follow the same format for EACH question.'
+        prompt = 'You are a master at making involved multiple choice questions. Create 5 high-quality multiple choice questions that test an extensive knowledge of the content that will be provided to you. For each question, give 4 sensible choices, and provide the right answer with an explanation to the problem. The first line for each question must be the question itself. The second, third, fourth and fifth lines should be the lettered choices. The sixth line should be the answer. The seventh line should be the explanation. Follow the same format for EACH question. There must be EXACTLY FIVE questions.'
     } else if (type == 'Outline'){
         prompt = 'Create a study guide that includes all of the main topics in the content provided.'
     } else if (type == 'Flashcard'){
@@ -50,7 +50,7 @@ export async function POST(req) {
     const openai = new OpenAIApi(configuration)
     
     const res = await openai.createChatCompletion({
-    model: 'gpt-3.5-turbo',
+    model: 'gpt-3.5-turbo-16k',
     messages: [{"role": "system", "content": prompt},
                 ...messages
                 // {"role": "user", "content": pdf2Text}
