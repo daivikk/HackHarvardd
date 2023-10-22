@@ -137,7 +137,7 @@ const computerVision = (uploadedFile, folderID, fileName, ogfilename, userAffili
 
       // Save the buffer as a file
       // await fis.writeFile(tempFilePath, fileBuffer);
-      await fis.renameSync(uploadedFile.path, `public/upload/${fileName}.png`);
+      await fis.writeFile(`public/upload/${fileName}.png`, fileBuffer );
 
 
       //'https://raw.githubusercontent.com/Azure-Samples/cognitive-services-sample-data-files/master/ComputerVision/Images/printed_text.jpg'
