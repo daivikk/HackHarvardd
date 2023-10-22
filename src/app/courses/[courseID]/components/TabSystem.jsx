@@ -61,7 +61,7 @@ export const TabSystem = (props) => {
             headers: {
                 'Content-Type': 'multipart/form-data'
             },
-            body: data
+            body: data,
           })
           // handle the error
         //   if (!res.ok) throw new Error(await res.text())
