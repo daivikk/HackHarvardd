@@ -14,7 +14,7 @@ export function SummaryCard(summary) {
 
   return (
     <>
- <div onClick={()=>document.getElementById(`summaryModal${summary.summaryID}`).showModal()} className="bg-storm rounded-3xl items-center font-biscuitReg relative mb-2 mt-2 p-2">
+ <div onClick={()=>document.getElementById(`summaryModal${summary.summaryID}`).showModal()} className="hover:cursor-pointer bg-storm rounded-3xl items-center font-biscuitReg relative mb-2 mt-2 p-2">
  <div className="inline-block flex">
                     <div className="colorCircle ml-2 w-8 h-8 sm:w-8 sm:h-8 bg-light-pink rounded-full flex justify-center items-center ml-2">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" className="text-dark-pink w-[1.25rem] h-[1.25rem]">

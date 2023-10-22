@@ -16,7 +16,8 @@ export const flashcardSlice = createSlice({
     setFlipped: (state, action) => {
         state.isFlipped = action.payload; 
     },
-    current: (state, action) => {
+    currFlashcard: (state, action) => {
+      state.currFlashcard = action.payload
     },
   },
 });

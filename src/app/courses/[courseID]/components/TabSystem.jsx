@@ -58,7 +58,7 @@ export const TabSystem = (props) => {
     
           const res = await fetch('/api/input', {
             method: 'POST',
-            body: data
+            body: data,
           })
           // handle the error
         //   if (!res.ok) throw new Error(await res.text())
