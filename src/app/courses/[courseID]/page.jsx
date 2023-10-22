@@ -231,7 +231,7 @@ export default function CoursePage({ params }) {
     </div>
     
     {activeFolder && <div className="bg-off-white p-4 sm:col-span-7 rounded-3xl shadow-md row-span-2">
-    <div className='items-center flex inline-block space-x-8'>
+    <div className='items-center flex inline-block space-x-2'>
          <div onClick={()=>{selected("uploads")}} id="uploads" className="tab hover:cursor-pointer bg-folder-blue w-2/12 flex h-16 rounded-3xl items-center inline-block font-biscuitReg relative mb-2 mt-2">
                 <h1 className="flex text-xl text-dark-gray font-biscuitReg ml-4">Uploads</h1>
          </div>

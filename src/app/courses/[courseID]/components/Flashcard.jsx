@@ -16,7 +16,7 @@ export const Flashcard = (props) => {
     <>
             <div className='ml-60 mr-60 justify-center items-center'>
                 <div className='font-biscuitReg bg-off-white shadow-lg rounded-3xl'>
-                    <p className='summaryText text-3xl text-justify text-dark-gray p-52 justify-center flex'>{data}</p>
+                    <p className='summaryText text-3xl text-dark-gray p-52 justify-center'>{data}</p>
                 </div>
             </div>
     {/* ARROW BUTTONS */}

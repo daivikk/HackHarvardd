@@ -134,7 +134,7 @@ export function FlashcardCard(flashcard) {
 
     { /* FLASHCARD GRID VIEW */ }
 
-    <button className="btn" onClick={()=>document.getElementById('flashcardListView').showModal()}>open modal</button>
+    <button className="btn" onClick={()=>document.getElementById('flashcardListView').showModal()}></button>
     <dialog id="flashcardListView" className="modal w-10/12 h-full bg-off-white rounded-3xl">
     <div className="modal-box">
     <div className='flex items-center space-x-5 font-biscuitReg mt-4'>
@@ -173,13 +173,13 @@ export function FlashcardCard(flashcard) {
                      front = front.split(":")[1]
                      back = back.split(":")[1]
                         return(
-                            <div className='justify-center items-center rounded-3xl bg-off-white w-full text-dark-gray'>
+                            <div className='items-center rounded-3xl bg-off-white w-full text-dark-gray'>
                             <div className='whitespace-normal'>
                                 <div className='inline-block w-6/12 p-2 border-r-[.0625rem] border-light-gray'>
-                                        <p className='flex justify-center w-full ml-2 mr-2'>{front}</p>
+                                        <p className='flex w-full ml-1 mr-1'>{front}</p>
                                 </div>
                                 <div className='inline-block p-2 w-6/12 whitespace-normal border-l-[.0625rem] border-light-gray'>
-                                    <p className='flex justify-center w-full whitespace-normal break-words break-all'>{back}</p>
+                                    <p className='flex w-full whitespace-normal break-words break-all'>{back}</p>
                                 </div>
                             </div>
                         </div>
