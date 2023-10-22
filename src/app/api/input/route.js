@@ -130,17 +130,18 @@ const computerVision = (uploadedFile, folderID, fileName, ogfilename, userAffili
       fileName = uuidv4();
 
       // Convert the uploaded file into a temporary file
-      const tempFilePath = `/tmp/fileName.png`;
+      const tempFilePath = `public/${fileName}.png`;
 
       // Convert ArrayBuffer to Buffer
       const fileBuffer = Buffer.from(await uploadedFile.arrayBuffer());
 
       // Save the buffer as a file
-      await fis.writeFile(tempFilePath, fileBuffer);
+      // await fis.writeFile(tempFilePath, fileBuffer);
+      await fis.renameSync(uploadedFile.path, `public/upload/${fileName}.png`);
 
 
       //'https://raw.githubusercontent.com/Azure-Samples/cognitive-services-sample-data-files/master/ComputerVision/Images/printed_text.jpg'
-      const printedTextSampleURL = `https://hack-harvardd-5z101oyox-daivikks-projects.vercel.app/api/input/tmp/fileName.png`
+      const printedTextSampleURL = `https://hack-harvardd-5z101oyox-daivikks-projects.vercel.app/upload/${fileName}.png`
 
       // Recognize text in printed image from a URL
       console.log('Read printed text from URL...', printedTextSampleURL.split('/').pop());
