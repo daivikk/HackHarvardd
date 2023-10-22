@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { authActions } from '@/state/reducers/authSlice';
 import { courseActions } from '@/state/reducers/courseSlice';
 import { useRouter } from "next/navigation";
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import ReactCardFlip from 'react-card-flip';
 import React from 'react';
 import { Flashcard } from 'src/app/courses/[courseID]/components/Flashcard.jsx'
@@ -16,17 +16,10 @@ export function FlashcardCard(flashcard) {
     const data = flashcard.flashcards
     const dispatch = useDispatch()
     const isFlipped = useSelector((state) => state.flashcard.isFlipped)
-    // constructor() {
-    //   super();
-    //     this.state = {
-    //     isFlipped: false
-    //   };
-    //   this.handleClick = this.handleClick.bind(this);
-    // }
-  
+    const [index, setIndex] = useState(0);
+
     const handleClick = (e) => {
       e.preventDefault();
-    //   this.setState(prevState => ({ isFlipped: !prevState.isFlipped }));
         if(isFlipped) {
             dispatch(flashcardActions.setFlipped(false));
         }
@@ -45,13 +38,30 @@ export function FlashcardCard(flashcard) {
         document.getElementById(`flashcardListView`).close()
     }
 
-    const prevClick = (e) => {
-        e.preventDefault();
+    console.log(data.length)
+
+    const prevClick = () => {
+        dispatch(flashcardActions.setFlipped(false));
+
+        if (index > 0) {
+            setIndex(index-1)
+        }
+        else if (index == 0) {
+            setIndex(data.length - 1)
+        }
     }
 
-    const nextClick = (e) => {
-        e.preventDefault();
+    const nextClick = () => {
+        dispatch(flashcardActions.setFlipped(false));
+
+        if (index < data.length -1) {
+            setIndex(index+1)
+        }
+        else if (index == data.length -1){
+            setIndex(0)
+        }
     }
+
       return (
 <>
 <div onClick={()=>document.getElementById(`flashcardModal${flashcard.flashcardID}`).showModal()} className="hover:cursor-pointer bg-storm rounded-3xl items-center font-biscuitReg relative mb-2 mt-2 p-2">
@@ -68,7 +78,7 @@ export function FlashcardCard(flashcard) {
         </div> 
       )})}
     </div>
-    <div className='flex items-center justify-center font-biscuitReg text-light-gray text-md'>View</div>
+    <div className='flex items-center justify-center font-biscuitReg text-light-gray mt-5 text-md'>View</div>
         <div className="inline-block flex space-x-2 items-center justify-center">
                         <div onClick={openCardView} className="cardView w-10 h-10 sm:w-10 sm:h-10 bg-blue-md rounded-full justify-center items-center flex inline-block hover:cursor-pointer">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" className="w-6 h-6 text-dark-blue hover:text-hover-blue hover:scale-105">
@@ -83,7 +93,7 @@ export function FlashcardCard(flashcard) {
 
                         </div>
             </div>
-    {data.map((pair, index) => {
+    {/* {data.map((pair, index) => {
         let front = String(pair.front)
         let back = String(pair.back)
         front = front.split(":")[1]
@@ -100,19 +110,29 @@ export function FlashcardCard(flashcard) {
                 </ReactCardFlip>
             </div>
         )
-    })}
+    })} */}
+    <div className='mt-8'>
+                <ReactCardFlip isFlipped={isFlipped} flipDirection="vertical">
+                    <div onClick={handleClick}>
+                        <Flashcard data={String(data[index].front).split(':')[1]}/>
+                    </div>
+                    <div onClick={handleClick}>
+                        <Flashcard data={String(data[index].back).split(':')[1]}/>
+                    </div>
+                </ReactCardFlip>
+            </div>
     
     {/* ARROW BUTTONS */}
     <div className='flex flex-row justify-between ml-20 mr-20 -mt-64'>
         <div className='justify-start z-10'>
-            <button className="btn btn-sm w-[4rem] h-[4rem] btn-circle btn-ghost bg-blue-md rounded-full justify-center items-center flex inline-block hover:scale-105">
+            <button onClick={prevClick} className="btn btn-sm w-[4rem] h-[4rem] btn-circle btn-ghost bg-blue-md rounded-full justify-center items-center flex inline-block hover:scale-105">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6 text-dark-blue hover:scale-110 hover:cursor-pointer">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
                 </svg>
             </button>
         </div>
         <div className='justify-end z-10'>
-            <button className="btn btn-sm w-[4rem] h-[4rem] btn-circle btn-ghost bg-blue-md rounded-full justify-center items-center flex inline-block hover:scale-105">
+            <button onClick={nextClick} className="btn btn-sm w-[4rem] h-[4rem] btn-circle btn-ghost bg-blue-md rounded-full justify-center items-center flex inline-block hover:scale-105">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6 text-dark-blue hover:scale-110 hover:cursor-pointer">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
                 </svg>
@@ -141,11 +161,11 @@ export function FlashcardCard(flashcard) {
             <h1 className="flex font-semibold text-dark-gray text-3xl ml-6 border-b border-light-gray">{flashcard.title}</h1>
         <div className="bg-blue-md w-fit pl-3 pr-3 h-8 rounded-3xl flex items-center ">
         {flashcard.filesUsed.map((file, index) => {
-            return(
-                <div className="bg-blue-md w-fit pl-3 pr-3 h-8 rounded-3xl flex items-center ">
-                <h1 className="text-md text-dark-blue">{file.name}</h1>
-                </div> 
-            )})}
+        return(
+            <div className="bg-blue-md w-fit pl-3 pr-3 h-8 rounded-3xl flex items-center ">
+            <h1 className="text-md text-dark-blue">{file.name}</h1>
+            </div> 
+      )})}
         </div> 
     </div>
         <>

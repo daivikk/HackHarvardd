@@ -14,7 +14,7 @@ export function SummaryCard(summary) {
 
   return (
     <>
- <div onClick={()=>document.getElementById(`summaryModal${summary.summaryID}`).showModal()} className="bg-storm rounded-3xl items-center font-biscuitReg relative mb-2 mt-2 p-2">
+ <div onClick={()=>document.getElementById(`summaryModal${summary.summaryID}`).showModal()} className="hover:cursor-pointer bg-storm rounded-3xl items-center font-biscuitReg relative mb-2 mt-2 p-2">
     <h1 className="flex text-xl text-dark-gray font-biscuitReg ml-4">{summary.title}</h1>
   </div>
 
