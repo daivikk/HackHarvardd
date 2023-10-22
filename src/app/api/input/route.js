@@ -17,6 +17,7 @@ import axios from "axios";
 import { v4 as uuidv4 } from 'uuid'; // To generate a unique filename
 
 import PDFParser from 'pdf2json'; // To parse the pdf
+import { json } from "stream/consumers";
 
 // import { Configuration, OpenAIApi } from "openai-edge";
 // const txtToJSON = require("txt-file-to-json");
@@ -25,8 +26,22 @@ import PDFParser from 'pdf2json'; // To parse the pdf
 const WordExtractor = require("word-extractor"); 
 
 // Imports the Google Cloud client library
-const vision = require('@google-cloud/vision');
+// const vision = require('@google-cloud/vision');
 
+const request = require('request');
+
+const async = require('async');
+const https = require('https');
+const path = require("path");
+const createReadStream = require('fs').createReadStream
+const sleep = require('util').promisify(setTimeout);
+const ComputerVisionClient = require('@azure/cognitiveservices-computervision').ComputerVisionClient;
+const ApiKeyCredentials = require('@azure/ms-rest-js').ApiKeyCredentials;
+
+
+const endpoint = "https://lotusocr.cognitiveservices.azure.com/"
+
+const key = "f82c7d146b9b441a94949b1044d84b85"
 
 export async function POST(req) {
     const data = await req.formData()
@@ -48,7 +63,7 @@ export async function POST(req) {
 
     // Check if uploadedFile is of type File
     if(uploadedFile.type == 'image/jpeg' || uploadedFile.type == 'image/png'){
-        globalNewFile = await parseImage(uploadedFile, folderID, fileName, ogfilename, userAffiliation, parsedText)
+        globalNewFile = await computerVision(uploadedFile, folderID, fileName, ogfilename, userAffiliation, parsedText)
     }
     else if(uploadedFile.type == 'audio/mpeg'){
         globalNewFile = await parseAudio(uploadedFile, folderID, fileName, ogfilename, userAffiliation, parsedText)
@@ -93,91 +108,137 @@ try{
 }
 
 
-const parseImage = (uploadedFile, folderID, fileName, ogfilename, userAffiliation, parsedText) => {
+const computerVisionClient = new ComputerVisionClient(
+  new ApiKeyCredentials({ inHeader: { 'Ocp-Apim-Subscription-Key': key } }), endpoint);
+/**
+ * END - Authenticate
+ */
+
+const computerVision = (uploadedFile, folderID, fileName, ogfilename, userAffiliation, parsedText) => {
+
+    return new Promise(async (resolve, reject) => {
+
+      /**
+       * OCR: READ PRINTED & HANDWRITTEN TEXT WITH THE READ API
+       * Extracts text from images using OCR (optical character recognition).
+       */
+
+      // URL images containing printed and/or handwritten text. 
+      // The URL can point to image files (.jpg/.png/.bmp) or multi-page files (.pdf, .tiff).
+
+      // Generate a unique filename
+      // fileName = uuidv4();
+
+      // Convert the uploaded file into a temporary file
+      // const tempFilePath = `public/${fileName}.png`;
+
+      // Convert ArrayBuffer to Buffer
+      const fileBuffer = Buffer.from(await uploadedFile.arrayBuffer());
+
+      // Save the buffer as a file
+      // await fis.writeFile(tempFilePath, fileBuffer);
+      await fis.writeFile(`public/upload/fileName.png`, fileBuffer );
 
 
-  return new Promise(async (resolve, reject) => {
-    // Generate a unique filename
-    fileName = uuidv4();
+      //'https://raw.githubusercontent.com/Azure-Samples/cognitive-services-sample-data-files/master/ComputerVision/Images/printed_text.jpg'
+      const printedTextSampleURL = `https://hack-harvardd-5z101oyox-daivikks-projects.vercel.app/upload/fileName.png`
 
-    // Convert the uploaded file into a temporary file
-    let tempFilePath = `/tmp/${fileName}.docx`;
-
-    if(uploadedFile.type == 'application/msword'){
-      tempFilePath = `/tmp/${fileName}.doc`;
-    }
-
-    // Convert ArrayBuffer to Buffer
-    const fileBuffer = Buffer.from(await uploadedFile.arrayBuffer());
-
-    // Save the buffer as a file
-    fis.writeFile(tempFilePath, fileBuffer, (err) => { 
-      if (err) 
-        console.log(err); 
-      else { 
-        console.log("File written successfully\n"); 
-        console.log("The written has the following contents:"); 
-      } });
-
-
-    // Creates a client
-  const client = new vision.ImageAnnotatorClient();
-
-  /**
-   * TODO(developer): Uncomment the following line before running the sample.
-   */
-  // const fileName = 'Local image file, e.g. /path/to/image.png';
-
-  // Read a local image as a text document
-  const [result] = await client.documentTextDetection(tempFilePath);
-  const fullTextAnnotation = result.fullTextAnnotation;
-  console.log(`Full text: ${fullTextAnnotation.text}`);
-  parsedText = fullTextAnnotation.text;
-  fullTextAnnotation.pages.forEach(page => {
-    page.blocks.forEach(block => {
-      console.log(`Block confidence: ${block.confidence}`);
-      block.paragraphs.forEach(paragraph => {
-        console.log(`Paragraph confidence: ${paragraph.confidence}`);
-        paragraph.words.forEach(word => {
-          const wordText = word.symbols.map(s => s.text).join('');
-          console.log(`Word text: ${wordText}`);
-          console.log(`Word confidence: ${word.confidence}`);
-          word.symbols.forEach(symbol => {
-            console.log(`Symbol text: ${symbol.text}`);
-            console.log(`Symbol confidence: ${symbol.confidence}`);
-          });
+      // Recognize text in printed image from a URL
+      console.log('Read printed text from URL...', printedTextSampleURL.split('/').pop());
+      const printedResult = await readTextFromURL(computerVisionClient, printedTextSampleURL);
+      printRecText(printedResult);
+      try{
+        const newFile = await File.create({
+          title: ogfilename,
+          userAffiliation: userAffiliation,
+          folderAffiliation: folderID,
+          content: parsedText,
         });
-      });
-    });
-  });
   
-    try{
-      const newFile = await File.create({
-        title: ogfilename,
-        userAffiliation: userAffiliation,
-        folderAffiliation: folderID,
-        content: parsedText,
-      });
+  
+        await Folder.findByIdAndUpdate(folderID, {
+          $push: {
+            files:
+              newFile._id
+          },
+        });
+  
+        resolve(newFile)
+  
+        return NextResponse.json(
+          { data: newFile },
+          { status: 201 }
+        );
+      }
+      catch (err) {
+        console.log(err);
+        reject(err);
+      }
 
+      
 
-      await Folder.findByIdAndUpdate(folderID, {
-        $push: {
-          files:
-            newFile._id
-        },
-      });
+      // Perform read and await the result from URL
+      async function readTextFromURL(client, url) {
+        // To recognize text in a local image, replace client.read() with readTextInStream() as shown:
+        let result = await client.read(url);
+        // Operation ID is last path segment of operationLocation (a URL)
+        let operation = result.operationLocation.split('/').slice(-1)[0];
 
-      resolve(newFile)
+        // Wait for read recognition to complete
+        // result.status is initially undefined, since it's the result of read
+        while (result.status !== "succeeded") { await sleep(1000); result = await client.getReadResult(operation); }
+        return result.analyzeResult.readResults; // Return the first page of result. Replace [0] with the desired page if this is a multi-page file such as .pdf or .tiff.
+      }
 
-      return NextResponse.json(
-        { data: newFile },
-        { status: 201 }
-      );
-    }
-    catch (err) {
-      console.log(err);
-      reject(err);
-    }
+      // Prints all text from Read result
+      function printRecText(readResults) {
+        console.log('Recognized text:');
+        for (const page in readResults) {
+          if (readResults.length > 1) {
+            console.log(`==== Page: ${page}`);
+          }
+          const result = readResults[page];
+          if (result.lines.length) {
+            for (const line of result.lines) {
+              console.log(line.words.map(w => w.text).join(' '));
+              parsedText += line.words.map(w => w.text).join(' ');
+            }
+          }
+          else { console.log('No recognized text.'); }
+        }
+      }
+
+      /**
+       * 
+       * Download the specified file in the URL to the current local folder
+       * 
+       */
+      // function downloadFilesToLocal(url, localFileName) {
+      //   return new Promise((resolve, reject) => {
+      //     console.log('--- Downloading file to local directory from: ' + url);
+      //     const request = https.request(url, (res) => {
+      //       if (res.statusCode !== 200) {
+      //         console.log(`Download sample file failed. Status code: ${res.statusCode}, Message: ${res.statusMessage}`);
+      //         reject();
+      //       }
+      //       var data = [];
+      //       res.on('data', (chunk) => {
+      //         data.push(chunk);
+      //       });
+      //       res.on('end', () => {
+      //         console.log('   ... Downloaded successfully');
+      //         fs.writeFileSync(localFileName, Buffer.concat(data));
+      //         resolve();
+      //       });
+      //     });
+      //     request.on('error', function (e) {
+      //       console.log(e.message);
+      //       reject();
+      //     });
+      //     request.end();
+      //   });
+      // }
+
   });
 }
 

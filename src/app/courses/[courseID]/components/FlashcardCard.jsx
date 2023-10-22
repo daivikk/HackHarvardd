@@ -73,7 +73,7 @@ export function FlashcardCard(flashcard) {
             <h1 className="flex font-semibold text-dark-gray text-3xl ml-6 border-b border-light-gray">{flashcard.title}</h1>
     {flashcard.filesUsed.map((file, index) => {
       return(
-        <div className="bg-blue-md w-fit pl-3 pr-3 h-8 rounded-3xl flex items-center ">
+        <div key={index} className="bg-blue-md w-fit pl-3 pr-3 h-8 rounded-3xl flex items-center ">
           <h1 className="text-md text-dark-blue">{file.name}</h1>
         </div> 
       )})}
@@ -99,7 +99,7 @@ export function FlashcardCard(flashcard) {
         front = front.split(":")[1]
         back = back.split(":")[1]
         return(
-            <div className='mt-8'>
+            <div className='mt-8' key={index}>
                 <ReactCardFlip isFlipped={isFlipped} flipDirection="vertical">
                     <div onClick={handleClick}>
                         <Flashcard key={index} data={front}/>
@@ -161,11 +161,11 @@ export function FlashcardCard(flashcard) {
             <h1 className="flex font-semibold text-dark-gray text-3xl ml-6 border-b border-light-gray">{flashcard.title}</h1>
         <div className="bg-blue-md w-fit pl-3 pr-3 h-8 rounded-3xl flex items-center ">
         {flashcard.filesUsed.map((file, index) => {
-        return(
-            <div className="bg-blue-md w-fit pl-3 pr-3 h-8 rounded-3xl flex items-center ">
-            <h1 className="text-md text-dark-blue">{file.name}</h1>
-            </div> 
-      )})}
+            return(
+                <div key={index} className="bg-blue-md w-fit pl-3 pr-3 h-8 rounded-3xl flex items-center ">
+                <h1 className="text-md text-dark-blue">{file.name}</h1>
+                </div> 
+            )})}
         </div> 
     </div>
         <>
@@ -193,7 +193,7 @@ export function FlashcardCard(flashcard) {
                      front = front.split(":")[1]
                      back = back.split(":")[1]
                         return(
-                            <div className='items-center rounded-3xl bg-off-white w-full text-dark-gray'>
+                            <div key={index} className='items-center rounded-3xl bg-off-white w-full text-dark-gray'>
                             <div className='whitespace-normal'>
                                 <div className='inline-block w-6/12 p-2 border-r-[.0625rem] border-light-gray'>
                                         <p className='flex w-full ml-1 mr-1'>{front}</p>
