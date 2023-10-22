@@ -15,7 +15,14 @@ export function SummaryCard(summary) {
   return (
     <>
  <div onClick={()=>document.getElementById(`summaryModal${summary.summaryID}`).showModal()} className="hover:cursor-pointer bg-storm rounded-3xl items-center font-biscuitReg relative mb-2 mt-2 p-2">
-    <h1 className="flex text-xl text-dark-gray font-biscuitReg ml-4">{summary.title}</h1>
+ <div className="inline-block flex">
+                    <div className="colorCircle ml-2 w-8 h-8 sm:w-8 sm:h-8 bg-light-pink rounded-full flex justify-center items-center ml-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="text-dark-pink w-[1.25rem] h-[1.25rem]">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
+        </svg>
+                    </div>
+                    <h1 className="flex items-center text-md text-dark-gray font-biscuitReg ml-4">{summary.title}</h1>                    
+                    </div>
   </div>
 
 <dialog id={`summaryModal${summary.summaryID}`} className="modal w-full h-full bg-off-white rounded-3xl">
