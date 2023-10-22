@@ -24,7 +24,7 @@ export function OutlineCard(outline) {
         <h1 className="flex font-semibold text-dark-gray text-3xl ml-6 border-b border-light-gray">{outline.title}</h1>
     {outline.filesUsed.map((file, index) => {
       return(
-        <div className="bg-blue-md w-fit pl-3 pr-3 h-8 rounded-3xl flex items-center ">
+        <div key={index} className="bg-blue-md w-fit pl-3 pr-3 h-8 rounded-3xl flex items-center ">
           <h1 className="text-md text-dark-blue">{file.name}</h1>
         </div> 
       )})}

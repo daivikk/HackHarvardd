@@ -24,7 +24,7 @@ export function QuizCard(quiz) {
     <div className="bg-blue-md w-fit pl-3 pr-3 h-8 rounded-3xl flex items-center ">
     {quiz.filesUsed.map((file, index) => {
       return(
-        <div className="bg-blue-md w-fit pl-3 pr-3 h-8 rounded-3xl flex items-center">
+        <div key={index} className="bg-blue-md w-fit pl-3 pr-3 h-8 rounded-3xl flex items-center">
           <h1 className="text-md text-dark-blue">{file.name}</h1>
         </div> 
       )})}
@@ -40,7 +40,7 @@ export function QuizCard(quiz) {
         </button>
         {quiz.questions.map((question, index) => {
           return(
-            <QuestionCard {...question}/>
+            <QuestionCard key={index} {...question}/>
           )
         })}
       </form>

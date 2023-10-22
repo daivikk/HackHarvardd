@@ -207,6 +207,7 @@ export default function CoursePage({ params }) {
             <div className='items-center flex space-x-8'>
                 <h1 className="welcomeHeader flex font-semibold text-dark-gray text-5xl mt-2 ml-2 border-b border-light-gray">{course.name} </h1>
              </div>
+             {/* CLOSE BTN */}
              <button onClick={routeDash} className="btn btn-sm w-[1.75rem] h-[1.75rem] btn-circle btn-ghost absolute top-0 right-2 bg-pastel-red rounded-full justify-center items-center flex inline-block">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="text-dark-red hover:text-hover-red hover:scale-105 w-[1.5rem] h-[1.5rem]">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
